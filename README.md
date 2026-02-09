@@ -7,6 +7,5 @@ StreamerBot can be found at:
 ## How to import into StreamerBot
 I will be saving files to import into StreamerBot with a ".sb" extension. 
 
-You can find my importing tutorial on YouTube.
-https://www.youtube.com/watch?v=gHqw3gwpbco
+You can find my [Streamer.bot Importing Tutorial](https://www.youtube.com/watch?v=gHqw3gwpbco) on YouTube.
 
