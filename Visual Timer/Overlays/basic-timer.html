@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+OVERLAY SETTINGS
+Width: 400
+Height: 125
+Shutdown source when not visible: ON
+Refresh browser when scene becomes active: ON
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basic Visual Timer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <script src="visual-timer.js"></script>
+    <style>
+        #visualTimer {
+            display: none;
+            text-align: center;
+            font-size: 50px;
+            font-family: "Roboto", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+            color: white;
+            text-shadow: 3px 3px black;
+        }
+    </style>
+    <script>
+        var showHours = true;
+        var showMinutes = true;
+
+        function initTimer(totalSeconds) {
+            if (totalSeconds < 3600) {
+                showHours = false;
+            }
+            if (totalSeconds < 61) {
+                showMinutes = false;
+            }
+            updateTimer(totalSeconds);
+        }
+
+        function startTimer() {
+            document.getElementById("visualTimer").style.display = "block";
+        }
+
+        function updateTimer(remainingSeconds) {
+            hours = Math.floor(remainingSeconds / 3600);
+            minutes = Math.floor((remainingSeconds - (hours * 3600)) / 60);
+            seconds = remainingSeconds % 60;
+
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            timerString = "";
+            if (showHours) {
+                timerString += hours + ":";
+            }
+            if (showMinutes) {
+                timerString += minutes + ":";
+            } else {
+                seconds = remainingSeconds;
+            }
+            timerString += seconds;
+            document.getElementById('timeLeft').textContent = timerString;
+        }
+
+        function finishTimer() {
+            updateTimer(0, 0, 0);
+        }
+    </script>
+</head>
+<body>
+<div id="visualTimer">
+    Time Left:<br/>
+    <span id="timeLeft"></span>
+</div>
+</body>
+</html>

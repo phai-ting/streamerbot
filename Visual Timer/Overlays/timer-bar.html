@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--
+OVERLAY SETTINGS
+Width: 400
+Height: 40
+Shutdown source when not visible: ON
+Refresh browser when scene becomes active: ON
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visual Timer Bar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="visual-timer.js"></script>
+    <style>
+        #visualTimer {
+            display: none;
+            text-align: center;
+            font-size: 32px;
+            font-family: "Roboto", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+            color: white;
+            text-shadow: 3px 3px black;
+        }
+        #timer-bar {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            background-color: blue;
+        }
+        #timer-progress {
+            width: 50%;
+            height: 40px;
+            background-color: green;
+        }
+        #timer-label {
+            position: absolute;
+            width: 100%;
+        }
+    </style>
+    <script>
+        var initialTime = 0;
+        var showHours = true;
+        var showMinutes = true;
+
+        function initTimer(totalSeconds) {
+            initialTime = totalSeconds;
+            if (totalSeconds < 3600) {
+                showHours = false;
+            }
+            if (totalSeconds < 61) {
+                showMinutes = false;
+            }
+            updateTimer(totalSeconds);
+        }
+
+        function startTimer() {
+            document.getElementById("visualTimer").style.display = "block";
+        }
+
+        function updateTimer(remainingSeconds) {
+            hours = Math.floor(remainingSeconds / 3600);
+            minutes = Math.floor((remainingSeconds - (hours * 3600)) / 60);
+            seconds = remainingSeconds % 60;
+
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            timerString = "";
+            if (showHours) {
+                timerString += hours + ":";
+            }
+            if (showMinutes) {
+                timerString += minutes + ":";
+            } else {
+                seconds = remainingSeconds;
+            }
+            timerString += seconds;
+            document.getElementById('timer-label').textContent = timerString;
+            document.getElementById("timer-progress").style.width = (remainingSeconds * 100 / initialTime) + "%";
+        }
+
+        function finishTimer() {
+            updateTimer(0, 0, 0);
+        }
+    </script>
+</head>
+<body>
+<div id="visualTimer">
+    <div id="timer-bar">
+        <div id="timer-label"></div>
+        <div id="timer-progress"></div>
+    </div>
+</div>
+</body>
+</html>
