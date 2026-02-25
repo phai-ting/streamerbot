@@ -26,3 +26,5 @@ only needs to include the sub-Actions that you want to run and it does not need 
 If a user specific Action is not found, the logic will then check to see what user category Action to run.
 
 NOTE: This collection of Actions is dependent on my "Run Action by Name" Action.
+
+A tutorial video is on YouTube here: https://youtu.be/jrvEUXhLTfM
