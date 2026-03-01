@@ -1,4 +1,4 @@
-#End Stream after Raid Out
+# End Stream after Raid Out
 
 When you are streaming and then raid out to another streamer, OBS will continue to stream.
 This action will tell OBS to stop streaming.
