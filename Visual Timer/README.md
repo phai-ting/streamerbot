@@ -47,4 +47,6 @@ Go to the "Visual Timer Start" action and configure it for the scene and source 
 
 Go to the "Visual Timer Hide" action and configure it for the scene and source of your Visual Timer Broswer source.
 
+NOTE: This collection of Actions is dependent on my "Local File Path to URL" Action.
+
 
