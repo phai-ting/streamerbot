@@ -51,4 +51,4 @@ Go to the "Visual Timer Hide" action and configure it for the scene and source o
 
 NOTE: This collection of Actions is dependent on my "Local File Path to URL" Action.
 
-
+A tutorial video is on YouTube here: https://www.youtube.com/watch?v=B7YVV1uqK2w
