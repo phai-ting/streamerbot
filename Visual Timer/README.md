@@ -26,12 +26,14 @@ Visual Timer can accept local file paths or URLs. In OBS, the "Local" file" chec
 to use a local file.
 
 For the basic timer, use the following settings which can also be found in the "basic-timer.html" file:
+- URL: https://phai-ting.github.io/visual-timer/basic-timer.html
 - Width: 400
 - Height: 125
 - Shutdown source when not visible: ON
 - Refresh browser when scene becomes active: ON
 
 For the timer bar, use the following settings which can also be found in the "timer-bar.html" file:
+- URL: https://phai-ting.github.io/visual-timer/timer-bar.html
 - Width: 400
 - Height: 40
 - Shutdown source when not visible: ON
