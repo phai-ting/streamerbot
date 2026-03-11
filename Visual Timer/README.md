@@ -42,7 +42,8 @@ For the timer bar, use the following settings which can also be found in the "ti
 ### StreamerBot
 In StreamerBot, select the Visual Timer action that was imported.
 
-Open the **Visual Timer Configuration** to set it up. Set the value of `visualTimerOverlay` to the URL or the local file path of the overlay.
+Open the **Visual Timer Configuration** to set it up. Set the value of `visualTimerOverlay` to the URL or the local file 
+path of the overlay. When using a local path from your computer, do not include quotation marks around it.
 Set the value of `visualTimerHideDelaySeconds` to the number of seconds to wait after the timer hits 0 before it is hidden. You can leave it at the default.
 
 Go to the **"Visual Timer Start"** action and configure it for the scene and source of your Visual Timer Broswer source.
