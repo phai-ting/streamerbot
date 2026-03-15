@@ -1,6 +1,6 @@
 # First Words - User Greetings
 
-This collection os StreamerBot Actions will allow you to run a collection of sub-Actions after a user submits their 
+This collection of StreamerBot Actions will allow you to run a collection of sub-Actions after a user submits their 
 First Words in a stream to greet them. It can be a single sub-Action like just a greeting, but it can also be more 
 information like an message introducing a specific person to the rest of the stream as well as anything that StreamerBot 
 is capable of.
