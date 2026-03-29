@@ -17,3 +17,5 @@ If you want to look something up after the stream, you could use:
 `!note Look up PhaiTing's StreamerBot tools on Github`
 
 The default Stream Notes folder is `C:\Stream Notes` but it can be changed by updating the `streamNotesFolder` variable.
+
+A tutorial video is on YouTube here: https://youtu.be/xxI1wpCxPHs
