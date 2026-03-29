@@ -18,4 +18,6 @@ If you want to look something up after the stream, you could use:
 
 The default Stream Notes folder is `C:\Stream Notes` but it can be changed by updating the `streamNotesFolder` variable.
 
+This action includes a command. Imported commands are disabled by default, so be sure to enable it.
+
 A tutorial video is on YouTube here: https://youtu.be/xxI1wpCxPHs
