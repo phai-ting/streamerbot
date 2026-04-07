@@ -29,15 +29,18 @@ https://www.todoist.com/help/articles/find-your-api-token-Jpzx9IIlB
 
 Once you have it, go to Streamer.bot and create a Persisted Global Variable called "globalTodoistToken" and use your
 token as the value.
+
 ![](assets/Todoist-Global.png)
 ![](assets/Todoist-Token.png)
 
 By default, Stream Notes will be saved as tasks in the Inbox but a default project can be set by updating the `todoistProjectName` variable.
+
 ![](assets/Todoist-Configuration.png)
 ![](assets/Todoist-Project.png)
 
 Tasks can be added using Todoist's Quick Add (`quick`) or the normal Create Task (`create`) method.
 Set `taskAddMethod` to your desired method.
+
 ![](assets/Todoist-Create.png)
 
 This action includes a command. Imported commands are disabled by default, so be sure to enable it.
