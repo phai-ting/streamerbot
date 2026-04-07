@@ -35,11 +35,15 @@ token as the value.
 By default, Stream Notes will be saved as tasks in the Inbox but a default project can be set by updating the `todoistProjectName` variable.
 ![](assets/Todoist-Configuration.png)
 ![](assets/Todoist-Project.png)
+
+Tasks can be added using Todoist's Quick Add (`quick`) or the normal Create Task (`create`) method.
+Set `taskAddMethod` to your desired method.
 ![](assets/Todoist-Create.png)
 
 This action includes a command. Imported commands are disabled by default, so be sure to enable it.
 
 Note: The API calls to Todoist have been implemented as separate Actions so that you can reuse them in your own StreamBot projects.
+The calls to Todoist have been written in C#.
 - Create Task
 - Quick Add
 - Search Projects
