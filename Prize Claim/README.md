@@ -7,6 +7,8 @@ command, the streamer can announce that a a user is eligible to claim a prize. T
 By default the user must respond within 2 minutes, but this default can be changed or even removed via the chat command.
 When the timer is in effect, there is a warning message at 30 seconds remaining and then again at 15 seconds remaining.
 These values as well as the messages are stored as variables in the action so they can be easily updated.
+![](assets/Prize-Claim-Timing.png)
+![](assets/Prize-Claim-Messages.png)
 
 Examples:
 - Set the claim timer to 5 minutes - `!claim 5`
