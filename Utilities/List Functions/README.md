@@ -5,6 +5,9 @@ It works with lists using CSV formatting rules so it can also be used with rows 
 
 Note: The first item in a list is at position 0.
 
+## Example
+![](assets/List_Functions-example.png)
+
 ## Functions
 
 ### Count of Items in List
