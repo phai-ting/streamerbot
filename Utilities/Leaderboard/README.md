@@ -8,7 +8,7 @@ To clear a leaderboard, the data can be deleted in Streamer.bot's Global Variabl
 
 ## Functions
 
-### Set score for user
+### Set Score for User
 **Input**
 
 | Variable          | Value                                   |
@@ -22,7 +22,7 @@ To clear a leaderboard, the data can be deleted in Streamer.bot's Global Variabl
 |-----------|----------------------------------------|
 | intResult | the number of users on the leaderboard |
 
-### Set score for user
+### Set Score for User
 **Input**
 
 | Variable          | Value                                   |
@@ -32,7 +32,7 @@ To clear a leaderboard, the data can be deleted in Streamer.bot's Global Variabl
 | userArg           | the name of the user                    |
 | scoreArg          | the user's score                        |
 
-### Increment score for user
+### Increment Score for User
 **Input**
 
 | Variable          | Value                                    |
@@ -49,7 +49,7 @@ To clear a leaderboard, the data can be deleted in Streamer.bot's Global Variabl
 | userResult        | the name of the user     |
 | scoreResult       | the user's current score |
 
-### Decrement score for user
+### Decrement Score for User
 **Input**
 
 | Variable          | Value                                    |
