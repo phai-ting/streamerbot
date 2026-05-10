@@ -1,7 +1,10 @@
 # Leaderboard
 
 This action provides a persistent leaderboard that can be used by other Streamer.bot Actions.
-Note: Multiple leaderboards are supported by specifying different leaderboard names.
+
+Multiple leaderboards are supported by specifying different leaderboard names.
+
+To clear a leaderboard, the data can be deleted in Streamer.bot's Global Variables interface.
 
 ## Functions
 
