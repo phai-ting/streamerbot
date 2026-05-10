@@ -8,7 +8,7 @@ To clear a leaderboard, the data can be deleted in Streamer.bot's Global Variabl
 
 ## Functions
 
-### Set Score for User
+### Get Count of Users on the Leaderboard
 **Input**
 
 | Variable          | Value                                   |
@@ -148,7 +148,6 @@ Note: Since users can be tied for a rank, there could be more users returned tha
 | leaderboard#_position (# is the row number starting at 1) | the user's position in the leaderboard     |
 
 ### Get the Entire Leaderboard
-
 **Input**
 
 | Variable          | Value                                   |
@@ -167,7 +166,6 @@ Note: Since users can be tied for a rank, there could be more users returned tha
 | leaderboard#_position (# is the row number starting at 1) | the user's position in the leaderboard     |
 
 ### Remove User from the Leaderboard
-
 **Input**
 
 | Variable          | Value                                   |
