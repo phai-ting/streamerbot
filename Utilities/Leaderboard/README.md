@@ -1,15 +1,17 @@
 # Leaderboard
 
 This action provides a persistent leaderboard that can be used by other Streamer.bot Actions.
+Note: Multiple leaderboards are supported by specifying different leaderboard names.
 
 ## Functions
 
 ### Set score for user
 **Input**
 
-| Variable          | Value   |
-|-------------------|---------|
-| leaderboardAction | "count" |
+| Variable          | Value                                   |
+|-------------------|-----------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard. |
+| leaderboardAction | "count"                                 |
 
 **Output**
 
@@ -20,17 +22,19 @@ This action provides a persistent leaderboard that can be used by other Streamer
 ### Set score for user
 **Input**
 
-| Variable          | Value                |
-|-------------------|----------------------|
-| leaderboardAction | "set"                |
-| userArg           | the name of the user |
-| scoreArg          | the user's score     |
+| Variable          | Value                                   |
+|-------------------|-----------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard. |
+| leaderboardAction | "set"                                   |
+| userArg           | the name of the user                    |
+| scoreArg          | the user's score                        |
 
 ### Increment score for user
 **Input**
 
 | Variable          | Value                                    |
 |-------------------|------------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard.  |
 | leaderboardAction | "increment"                              |
 | userArg           | the name of the user                     |
 | scoreArg          | the amount to increment the user's score |
@@ -47,6 +51,7 @@ This action provides a persistent leaderboard that can be used by other Streamer
 
 | Variable          | Value                                    |
 |-------------------|------------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard.  |
 | leaderboardAction | "decrement"                              |
 | userArg           | the name of the user                     |
 | scoreArg          | the amount to decrement the user's score |
@@ -61,10 +66,11 @@ This action provides a persistent leaderboard that can be used by other Streamer
 ### Get User
 **Input**
 
-| Variable          | Value                |
-|-------------------|----------------------|
-| leaderboardAction | "getUser"            |
-| userArg           | the name of the user |
+| Variable          | Value                                   |
+|-------------------|-----------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard. |
+| leaderboardAction | "getUser"                               |
+| userArg           | the name of the user                    |
 
 **Output**
 
@@ -80,10 +86,11 @@ Note: Since users can be tied for a rank, there could be more than 1 user return
 
 **Input**
 
-| Variable          | Value                       |
-|-------------------|-----------------------------|
-| leaderboardAction | "getRank"                   |
-| rankArg           | the rank of users to return |
+| Variable          | Value                                   |
+|-------------------|-----------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard. |
+| leaderboardAction | "getRank"                               |
+| rankArg           | the rank of users to return             |
 
 **Output**
 
@@ -100,10 +107,11 @@ Note: Since users can be tied for a rank, there could be more users returned tha
 
 **Input**
 
-| Variable          | Value                               |
-|-------------------|-------------------------------------|
-| leaderboardAction | "top"                               |
-| rankArg           | the maximum rank of users to return |
+| Variable          | Value                                   |
+|-------------------|-----------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard. |
+| leaderboardAction | "top"                                   |
+| rankArg           | the maximum rank of users to return     |
 
 **Output**
 
@@ -120,10 +128,11 @@ Note: Since users can be tied for a rank, there could be more users returned tha
 
 **Input**
 
-| Variable          | Value                               |
-|-------------------|-------------------------------------|
-| leaderboardAction | "top"                               |
-| rankArg           | the maximum rank of users to return |
+| Variable          | Value                                   |
+|-------------------|-----------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard. |
+| leaderboardAction | "top"                                   |
+| rankArg           | the maximum rank of users to return     |
 
 **Output**
 
@@ -139,9 +148,10 @@ Note: Since users can be tied for a rank, there could be more users returned tha
 
 **Input**
 
-| Variable          | Value                               |
-|-------------------|-------------------------------------|
-| leaderboardAction | "all"                               |
+| Variable          | Value                                   |
+|-------------------|-----------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard. |
+| leaderboardAction | "all"                                   |
 
 **Output**
 
@@ -157,10 +167,11 @@ Note: Since users can be tied for a rank, there could be more users returned tha
 
 **Input**
 
-| Variable          | Value                |
-|-------------------|----------------------|
-| leaderboardAction | "remove"             |
-| userArg           | the name of the user |
+| Variable          | Value                                   |
+|-------------------|-----------------------------------------|
+| leaderboardName   | (Optional) the name of the leaderboard. |
+| leaderboardAction | "remove"                                |
+| userArg           | the name of the user                    |
 
 **Output**
 
