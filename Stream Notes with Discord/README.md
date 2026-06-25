@@ -7,7 +7,7 @@ from chat.
 The original version saved the notes to a text file. This version will save the notes to a Discord channel.
 
 Features:
-- As with the default Stream Notes, create notes/tasks directly from chat to review later `!note <some text>`
+- As with the default Stream Notes, create notes directly from chat to review later `!note <some text>`
 - If you allow users other than the broadcaster to use the command, the user's name will be included in the note
 
 Examples:
@@ -27,7 +27,7 @@ Go into Discord and edit the channel where you want the notes to be saved.
 
 ![](assets/edit-channel.png)
 
-Choose "Inegrations" and then click the "Create Webhook" button.
+Choose "Integrations" and then click the "Create Webhook" button.
 
 ![](assets/discord-integration.png)
 
