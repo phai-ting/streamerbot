@@ -24,13 +24,16 @@ If you want to look something up after the stream, you could use:
 First, you will need to create a webhook URL for the Discord channel where you want notes saved.
 
 Go into Discord and edit the channel where you want the notes to be saved.
+
 ![](assets/edit-channel.png)
 
 Choose "Inegrations" and then click the "Create Webhook" button.
+
 ![](assets/discord-integration.png)
 
 You can change the "Name" to what you want the notes posted from. Click the "Copy Webhook URL" button to get the webhook URL
 to put in Streamer.bot
+
 ![](assets/create-webhook.png)
 
 Now that you have the webhook URL, go to Streamer.bot and create a Persisted Global Variable called "discordNotesWebhook" and use your
