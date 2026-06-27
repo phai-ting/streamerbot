@@ -45,10 +45,4 @@ webhook URL as the value.
 
 This action includes a command. Imported commands are disabled by default, so be sure to enable it.
 
-Note: The API calls to Todoist have been implemented as separate Actions so that you can reuse them in your own StreamBot projects.
-The calls to Todoist have been written in C#.
-- Create Task
-- Quick Add
-- Search Projects
-
-See: https://developer.todoist.com/api/v1/
+See also: https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
