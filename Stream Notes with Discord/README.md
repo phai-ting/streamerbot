@@ -8,6 +8,7 @@ The original version saved the notes to a text file. This version will save the 
 
 Features:
 - As with the default Stream Notes, create notes directly from chat to review later `!note <some text>`
+- You can reply to a message with "!note" to capture a prior message as a note
 - If you allow users other than the broadcaster to use the command, the user's name will be included in the note
 
 Examples:
@@ -19,6 +20,20 @@ If you had a giveaway and PhaiTing won, you could use:
 If you want to look something up after the stream, you could use:
 
 `!note Look up PhaiTing's StreamerBot tools on Github`
+
+## Install
+Click "Stream Notes with Discord.sb" in the repo then click the "Download" button to download it to your computer.
+
+![](assets/github-download.png)
+
+In Streamer.bot on your computer click the "Import" menu to open the import dialog.
+
+![](assets/streamerbot-import.png)
+
+On your computer, drag the "Stream Notes with Discord.sb" file and drop it into the window. Click the "Import" button.
+
+![](assets/import-dialog.png)
+
 
 ## Configuration
 First, you will need to create a webhook URL for the Discord channel where you want notes saved.
