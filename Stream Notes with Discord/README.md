@@ -34,6 +34,7 @@ On your computer, drag the "Stream Notes with Discord.sb" file and drop it into 
 
 ![](assets/import-dialog.png)
 
+(There is a general video tutorial on importing into Streamer.bot here: https://youtu.be/gHqw3gwpbco)
 
 ## Configuration
 First, you will need to create a webhook URL for the Discord channel where you want notes saved.
