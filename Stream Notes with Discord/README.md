@@ -58,7 +58,12 @@ webhook URL as the value.
 ![](assets/global-variables.png)
 ![](assets/add-variable.png)
 
+## Customization
+This tool makes use of Configuration Helper. After this action runs once, it will create a configuration file in a `config` directory within the directory where Streamer.bot runs.
 
+You can edit the configs to customize the messages created by the Stream Notes tool.
+
+## Note
 This action includes a command. Imported commands are disabled by default, so be sure to enable it.
 
 See also: https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
