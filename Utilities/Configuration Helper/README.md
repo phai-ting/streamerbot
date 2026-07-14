@@ -40,5 +40,5 @@ The content of the file will be a header followed by a line for each variable an
 ![](assets/config-file.png)
 
 If the Configuration Helper action is run a second time in your Action, the tool will replace the values in the file
-with all of the "config_" variables available at that time the helper runs.
-
+with all of the "config_" variables available at the time the helper runs. This can be used to add configurations to
+the file after it was originally created.
