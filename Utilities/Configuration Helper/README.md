@@ -28,10 +28,10 @@ On your computer, drag the "Utility - Configuration Helper.sb" file and drop it 
 (There is a general video tutorial on importing into Streamer.bot here: https://youtu.be/gHqw3gwpbco)
 
 ## How to Use
-In the Streamer.bot action that you are creating, add a set of “set argument” sub-actions to set up the various 
+In the Streamer.bot action that you are creating, add a group of `Set Argument` sub-actions to set up the various 
 messages and values that you want to let users customize. Those argument names need to start with “config_”. 
 
-After that section, add a sub-action to run the Configuration Helper action.
+After that section, add a sub-action to run the Configuration Helper action (`Core -> Actions -> Run Action`).
 
 ![](assets/config-arguments.png)
 
