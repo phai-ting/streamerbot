@@ -1,6 +1,16 @@
 # Configuration Helper
 
+When making Streamer.bot tools available to other people, there are often opportunities to let users customize the
+tool to suit their needs or to just give it their own personality. That can be accomplished a number of ways including 
+by asking users to modify your code or by using persisted global variables. Unfortunately, when a user modifies your code, it is difficult to import updated versions. Persisted global variables
+are handled via a small dialog so working with a long list can be difficult.
 
+Many other applications handle customization via configuration files. It allows users to update the application
+without blowing away the configuration. It also groups all the configurations into a single place.
+
+Configuration Helper lets Streamer.bot actions work with configuration files just by adding a sub-action to call the
+Configuration Helper action. It will create the configuration file with your default values on the first run of your action.
+On subsequent runs, it will read from that configuration file.
 
 ## Install
 Click "Utility - Configuration Helper.sb" in the repo then click the "Download" button to download it to your computer.
@@ -42,3 +52,5 @@ The content of the file will be a header followed by a line for each variable an
 If the Configuration Helper action is run a second time in your Action, the tool will replace the values in the file
 with all of the "config_" variables available at the time the helper runs. This can be used to add configurations to
 the file after it was originally created.
+
+A tutorial video is on YouTube here: https://youtu.be/NpmD9ED9qZc
