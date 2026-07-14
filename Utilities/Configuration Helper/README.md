@@ -9,7 +9,7 @@ Many other applications handle customization via configuration files. It allows 
 without blowing away the configuration. It also groups all the configurations into a single place.
 
 Configuration Helper lets Streamer.bot actions work with configuration files just by adding a sub-action to call the
-Configuration Helper action. It will create the configuration file with your default values on the first run of your action.
+Configuration Helper action (`Core -> Actions -> Run Action`). It will create the configuration file with your default values on the first run of your action.
 On subsequent runs, it will read from that configuration file.
 
 ## Install
