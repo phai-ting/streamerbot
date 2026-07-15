@@ -12,6 +12,7 @@ Features:
 - Choose between basic task creation and "Quick Add" task creation which parses the note text
 - When using Quick Add, the default project can be overridden in the note text
 - If you allow users other than the broadcaster to use the command, the user's name will be included in the note
+- You can reply to a message with "!note" to capture a prior message as a note
 
 Examples:
 
