@@ -2,7 +2,7 @@
 
 The Stream Notes command ("!note") will let you record a log of things that you want to review later. It can be 
 inconvenient to grab a pen and paper or to record a note in a separate program. This lets you record that thought right 
-from chat.
+from chat. You can also reply to a previous message with "!note" to capture it as a stream note.
 
 A new file is created by calendar day and each entry in the file has a timestamp.
 
