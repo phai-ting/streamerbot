@@ -10,6 +10,7 @@ Features:
 - As with the default Stream Notes, create notes directly from chat to review later `!note <some text>`
 - You can reply to a message with "!note" to capture a prior message as a note
 - If you allow users other than the broadcaster to use the command, the user's name will be included in the note
+- Configurations are managed in a config file in Streamer.bot's "config" directory.
 
 Examples:
 
