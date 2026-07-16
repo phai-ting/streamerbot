@@ -39,9 +39,10 @@ No additional code is needed.
 
 ## How It Works
 The first time the action runs, it creates a `config` directory within the Streamer.bot directory if it doesn't already exist.
-It then creates a configuration file and writes all of the current variables that start with "config_". The name of the 
-configuration file will be the name of your Action with a ".config" extension. If your Action was named "My Awesome Alerts",
-the file would be named "My Awesome Alerts.config".
+It then creates a configuration file and writes all of the current variables that start with "config_". To add a hint in the 
+config file for a config entry, create a variable starting with "hint_" that matches the "config_" variable name with the value 
+of the hint text. The name of the configuration file will be the name of your Action with a ".config" extension. If your 
+Action was named "My Awesome Alerts", the file would be named "My Awesome Alerts.config".
 
 ![](assets/config-directory.png)
 
