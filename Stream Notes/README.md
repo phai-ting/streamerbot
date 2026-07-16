@@ -35,8 +35,6 @@ On your computer, drag the "Stream Notes.sb" file and drop it into the window. C
 Configurations are managed in a config file in Streamer.bot's "config" directory. 
 
 The default Stream Notes folder is `C:\Stream Notes` but it can be changed by updating the `streamNotesFolder` config.
-![](assets/StreamNotes-Sub-actions.png)
-![](assets/StreamNotes-SetArgument.png)
 
 ## Dependencies
 This action is packaged with Configuration Helper v2.0.0
