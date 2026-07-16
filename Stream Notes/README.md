@@ -32,10 +32,16 @@ On your computer, drag the "Stream Notes.sb" file and drop it into the window. C
 (There is a general video tutorial on importing into Streamer.bot here: https://youtu.be/gHqw3gwpbco)
 
 ## Configuration
-The default Stream Notes folder is `C:\Stream Notes` but it can be changed by updating the `streamNotesFolder` variable.
+Configurations are managed in a config file in Streamer.bot's "config" directory. 
+
+The default Stream Notes folder is `C:\Stream Notes` but it can be changed by updating the `streamNotesFolder` config.
 ![](assets/StreamNotes-Sub-actions.png)
 ![](assets/StreamNotes-SetArgument.png)
 
+## Dependencies
+This action is packaged with Configuration Helper v2.0.0
+
+## Note
 This action includes a command. Imported commands are disabled by default, so be sure to enable it.
 
 A tutorial video is on YouTube here: https://youtu.be/xxI1wpCxPHs
