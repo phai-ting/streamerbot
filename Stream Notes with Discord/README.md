@@ -66,4 +66,7 @@ You can edit the configs to customize the messages created by the Stream Notes t
 ## Note
 This action includes a command. Imported commands are disabled by default, so be sure to enable it.
 
+## Dependencies
+This action is packaged with Configuration Helper v2.0.0
+
 See also: https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
