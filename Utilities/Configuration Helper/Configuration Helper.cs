@@ -39,7 +39,6 @@ public class CPHInline
         // Check to see if the Configuration Helper has already be executed
         CPH.TryGetArg("config_loaded", out bool configLoaded);
         // If the config was already loaded and the Configuration Helper is called again, force a write
-        needWrite = configLoaded;
         if (!configLoaded && File.Exists(configFullPath))
         {
             LoadConfig();
@@ -50,6 +49,8 @@ public class CPHInline
                 CPH.LogInfo("Config::New configs have been addedd to the code. Forcing a write of the config file.");
                 needWrite = true;
             }
+        } else {
+             needWrite = true;
         }
 
         if (needWrite)
