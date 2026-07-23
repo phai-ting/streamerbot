@@ -1,7 +1,7 @@
 # Variables Available
 
 A list of all currently available variables is accessible via C# but not from native Streamer.bot actions.
-This action will retrieve those variables via C# and create a comma delimited list accessible by other actions.
+This action will retrieve those variables via C# and create a comma delimited list of variables names accessible by other actions.
 
 A prefix can be specified to filter the list of variables.
 
