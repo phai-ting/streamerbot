@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--
+OVERLAY SETTINGS
+Width: 400
+Height: 40
+Shutdown source when not visible: ON
+Refresh browser when scene becomes active: ON
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visual Pie Timer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="visual-timer.js"></script>
+    <style>
+        #visualTimer {
+            display: none;
+            text-align: center;
+            font-size: 32px;
+            font-family: "Roboto", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+            color: white;
+            text-shadow: 3px 3px black;
+        }
+
+        #timer-progress {
+            width: 50%;
+
+
+        }
+        #timer-label {
+            xposition: absolute;
+            width: 100%;
+        }
+    </style>
+    <script>
+        var totalTime = 0;
+        var showHours = true;
+        var showMinutes = true;
+
+
+
+        function initTimer(totalSeconds) {
+            totalTime = totalSeconds;
+            if (totalSeconds < 3600) {
+                showHours = false;
+            }
+            if (totalSeconds < 61) {
+                showMinutes = false;
+            }
+            updateTimer(totalSeconds);
+        }
+
+        function startTimer() {
+            document.getElementById("visualTimer").style.display = "block";
+        }
+
+        function updateTimer(remainingSeconds) {
+            hours = Math.floor(remainingSeconds / 3600);
+            minutes = Math.floor((remainingSeconds - (hours * 3600)) / 60);
+            seconds = remainingSeconds % 60;
+
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            timerString = "";
+            if (showHours) {
+                timerString += hours + ":";
+            }
+            if (showMinutes) {
+                timerString += minutes + ":";
+            } else {
+                seconds = remainingSeconds;
+            }
+            timerString += seconds;
+            document.getElementById('timer-label').textContent = timerString;
+
+            updatePie(remainingSeconds / totalTime);
+            //animateSector(100, 100, 100, 1, 418.25 * (remainingSeconds / totalTime), 1000);
+        }
+
+        function finishTimer() {
+            updateTimer(0, 0, 0);
+        }
+
+        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+          var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+          return {
+            x: centerX + (radius * Math.cos(angleInRadians)),
+            y: centerY + (radius * Math.sin(angleInRadians))
+          };
+        }
+
+        function updatePie(progress) {
+            var radius = 100;
+            var angle = 90;
+            //var arc = describeArc(x, y, radius, 0, angle * progress);
+
+            var arc = describeArc(100, 100, radius, 0, 1 - progress);
+            // Update the path
+
+            document.getElementById("timer-pie").setAttribute("d", arc);
+        }
+
+        function getCoordinatesForPercent(percent, radius) {
+          const x = Math.cos(2 * Math.PI * percent) * radius;
+          const y = Math.sin(2 * Math.PI * percent) * radius;
+
+          return [x, y];
+        }
+
+        function describeArc(x, y, radius, startAngle, percent){
+            //var start = polarToCartesian(x, y, radius, endAngle, radius);
+            //var end = polarToCartesian(x, y, radius, startAngle, radius);
+
+            //var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
+            var endPos = getCoordinatesForPercent(percent, radius);
+
+            var d = [
+                "M" , 100, 100,
+                //"L" , "100", 100,
+                "L" , 200, 100,
+                "A", radius, radius, 0,  0, 0, endPos[0], endPos[1],
+                "Z"
+            ].join(" ");
+            console.log(d);
+            return d;
+            //return "M10 10 L90 10 L90 90 L10 90 Z" ;
+        }
+
+
+    </script>
+</head>
+<body>
+<div id="visualTimer">
+    <div id="timer-bar">
+        <div id="timer-label"></div>
+        <div id="timer-progress">
+            <svg width="200" height="200">
+                <circle r="45" cx="50" cy="50" fill="red" stroke="green" stroke-width="3" />
+                <path id="timer-pie" fill="green" />
+            </svg>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
