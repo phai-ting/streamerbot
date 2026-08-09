@@ -53,11 +53,7 @@ to put in Streamer.bot
 
 ![](assets/create-webhook.png)
 
-Now that you have the webhook URL, go to Streamer.bot and create a Persisted Global Variable called "discordNotesWebhook" and use your
-webhook URL as the value.
-
-![](assets/global-variables.png)
-![](assets/add-variable.png)
+Now that you have the webhook URL, go into your Streamer.bot directory and look for a `config` directory. Inside that, you will find a `Stream Notes with Discord.config`. Assign that Discord webhook URL to the "discordWebhook" entry.
 
 ## Customization
 This tool makes use of Configuration Helper. After this action runs once, it will create a configuration file in a `config` directory within the directory where Streamer.bot runs.
