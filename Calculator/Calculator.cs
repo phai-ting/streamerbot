@@ -11,7 +11,12 @@ public class CPHInline
         string expr = NormalizeInput(rawInput);
         if (string.IsNullOrWhiteSpace(expr))
         {
-            CPH.SendMessage($"{Mention(user)} try including a math expression like \"= 365 / 7\". I can also handle paranthesis and many many functions.");
+            CPH.SendMessage($"{Mention(user)} try including a math expression like \"= 365 / 7\". I can also handle paranthesis, many functions, and unit conversions like \"= 65f\".");
+            return true;
+        }
+        if (UnitConverter.TryHandle(expr, out string conversionMessage))
+        {
+            CPH.SendMessage($"{Mention(user)} {conversionMessage}");
             return true;
         }
         try
@@ -19,7 +24,7 @@ public class CPHInline
             double value = MathEvaluator.Evaluate(expr);
             if (double.IsNaN(value) || double.IsInfinity(value))
             {
-                CPH.SendMessage($"{Mention(user)} that expression isn't a finite number.");
+                CPH.SendMessage($"{Mention(user)} that expression didn't come out to a real number.");
                 return true;
             }
             CPH.SendMessage($"{Mention(user)} {expr} = {FormatNumber(value)}");
@@ -67,9 +72,9 @@ static class MathEvaluator
     {
         var tokens = Tokenizer.Tokenize(expression);
         if (tokens.Count == 0)
-            throw new MathEvalException("It was an empty expression.");
+            throw new MathEvalException("I need an expression to work with.");
         if (tokens.Count > MaxTokens)
-            throw new MathEvalException("The expression is too long.");
+            throw new MathEvalException("That's a bit too long for me to handle.");
         var parser = new Parser(tokens);
         double result = parser.ParseExpression();
         parser.ExpectEnd();
@@ -112,7 +117,7 @@ static class MathEvaluator
                     {
                         if (s[i] == '.')
                         {
-                            if (sawDot) throw new MathEvalException("There was an invalid number.");
+                            if (sawDot) throw new MathEvalException("That number doesn't look quite right.");
                             sawDot = true;
                         }
                         i++;
@@ -141,7 +146,7 @@ static class MathEvaluator
                     tokens.Add(new Token(TokenKind.Ident, s.Substring(start, i - start).ToLowerInvariant()));
                     continue;
                 }
-                throw new MathEvalException($"There was an unexpected character '{c}'.");
+                throw new MathEvalException($"I'm not sure what to do with '{c}'.");
             }
             return tokens;
         }
@@ -155,14 +160,14 @@ static class MathEvaluator
         public void ExpectEnd()
         {
             if (!AtEnd)
-                throw new MathEvalException("There was an unexpected extra input after the expression.");
+                throw new MathEvalException("There was some extra stuff at the end that I didn't know what to do with.");
         }
         bool AtEnd => _pos >= _tokens.Count;
         Token Peek => AtEnd ? default : _tokens[_pos];
         bool Check(TokenKind k) => !AtEnd && Peek.Kind == k;
         Token Advance()
         {
-            if (AtEnd) throw new MathEvalException("There was an unexpected end of expression.");
+            if (AtEnd) throw new MathEvalException("It looks like that expression got cut off.");
             return _tokens[_pos++];
         }
         public double ParseExpression() => ParseAdd();
@@ -195,12 +200,12 @@ static class MathEvaluator
                     left *= right;
                 else if (op.Kind == TokenKind.Slash)
                 {
-                    if (right == 0) throw new MathEvalException("I ran into a division by zero.");
+                    if (right == 0) throw new MathEvalException("I can't divide by zero.");
                     left /= right;
                 }
                 else
                 {
-                    if (right == 0) throw new MathEvalException("I ran into a modulo by zero.");
+                    if (right == 0) throw new MathEvalException("I can't do a remainder with zero.");
                     left %= right;
                 }
             }
@@ -233,7 +238,7 @@ static class MathEvaluator
             {
                 string text = Advance().Text;
                 if (!double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out double n))
-                    throw new MathEvalException($"There is an invalid number '{text}'.");
+                    throw new MathEvalException($"I'm not sure how to read the number '{text}'.");
                 return n;
             }
             if (Check(TokenKind.Ident))
@@ -249,12 +254,12 @@ static class MathEvaluator
                 Advance();
                 double v = ParseExpression();
                 if (!Check(TokenKind.RParen))
-                    throw new MathEvalException("There is a missing ')'.");
+                    throw new MathEvalException("Looks like a closing ')' is missing.");
                 Advance();
                 Leave();
                 return v;
             }
-            throw new MathEvalException("I expected a number, constant, function, or '('.");
+            throw new MathEvalException("I was looking for a number, something like pi, a function, or a '('.");
         }
         double Constant(string name)
         {
@@ -264,7 +269,7 @@ static class MathEvaluator
                 case "e": return Math.E;
                 case "tau": return Math.PI * 2;
                 default:
-                    throw new MathEvalException($"I ran into an unknown name '{name}'.");
+                    throw new MathEvalException($"I'm not sure what '{name}' is.");
             }
         }
         double CallFunction(string name)
@@ -282,7 +287,7 @@ static class MathEvaluator
                 }
             }
             if (!Check(TokenKind.RParen))
-                throw new MathEvalException("There is a missing ')' after function arguments.");
+                throw new MathEvalException("Looks like a closing ')' is missing after the function.");
             Advance();
             Leave();
             return ApplyFunction(name, args);
@@ -291,7 +296,7 @@ static class MathEvaluator
         {
             _depth++;
             if (_depth > MaxDepth)
-                throw new MathEvalException("The expression is nested too deeply.");
+                throw new MathEvalException("That's nested a little too deep for me.");
         }
         void Leave() { _depth--; }
         static double ApplyFunction(string name, List<double> a)
@@ -302,7 +307,7 @@ static class MathEvaluator
                 case "abs": Require(n, 1, name); return Math.Abs(a[0]);
                 case "sqrt":
                     Require(n, 1, name);
-                    if (a[0] < 0) throw new MathEvalException("There was a square root of a negative number.");
+                    if (a[0] < 0) throw new MathEvalException("I can't take the square root of a negative number.");
                     return Math.Sqrt(a[0]);
                 case "floor": Require(n, 1, name); return Math.Floor(a[0]);
                 case "ceil":
@@ -314,16 +319,16 @@ static class MathEvaluator
                 case "log":
                     if (n == 1)
                     {
-                        if (a[0] <= 0) throw new MathEvalException("There was a log of a non-positive number.");
+                        if (a[0] <= 0) throw new MathEvalException("I can only take the log of a positive number.");
                         return Math.Log(a[0]);
                     }
                     Require(n, 2, name);
                     if (a[0] <= 0 || a[1] <= 0 || a[1] == 1)
-                        throw new MathEvalException("There was an invalid log argument.");
+                        throw new MathEvalException("Those log values don't work. Both need to be positive, and the base can't be 1.");
                     return Math.Log(a[0], a[1]);
                 case "log10":
                     Require(n, 1, name);
-                    if (a[0] <= 0) throw new MathEvalException("There was a log of a non-positive number.");
+                    if (a[0] <= 0) throw new MathEvalException("I can only take the log of a positive number.");
                     return Math.Log10(a[0]);
                 case "sin": Require(n, 1, name); return Math.Sin(a[0]);
                 case "cos": Require(n, 1, name); return Math.Cos(a[0]);
@@ -341,13 +346,258 @@ static class MathEvaluator
                 case "deg": Require(n, 1, name); return a[0] * (180.0 / Math.PI);
                 case "rad": Require(n, 1, name); return a[0] * (Math.PI / 180.0);
                 default:
-                    throw new MathEvalException($"There was an unknown function '{name}'.");
+                    throw new MathEvalException($"I don't know a function called '{name}'.");
             }
         }
         static void Require(int got, int need, string name)
         {
             if (got != need)
-                throw new MathEvalException($"Unfortunately, {name}() expects {need} argument(s).");
+            {
+                string needed = need == 1 ? "1 value" : $"{need} values";
+                throw new MathEvalException($"Unfortunately, {name}() needs {needed}.");
+            }
+        }
+    }
+}
+static class UnitConverter
+{
+    const string Length = "length";
+    const string Mass = "mass";
+    const string Temperature = "temperature";
+    const string Volume = "volume";
+    const string Time = "time";
+    static readonly Dictionary<string, string> AliasToId = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    static readonly Dictionary<string, UnitDef> Units = new Dictionary<string, UnitDef>(StringComparer.OrdinalIgnoreCase);
+    static UnitConverter()
+    {
+        Add("mm", Length, "mm", "in", 0.001, "millimeter", "millimeters", "millimetre", "millimetres");
+        Add("cm", Length, "cm", "in", 0.01, "centimeter", "centimeters", "centimetre", "centimetres");
+        Add("m", Length, "m", "ft", 1, "meter", "meters", "metre", "metres");
+        Add("km", Length, "km", "mi", 1000, "kilometer", "kilometers", "kilometre", "kilometres");
+        Add("in", Length, "in", "cm", 0.0254, "inch", "inches");
+        Add("ft", Length, "ft", "m", 0.3048, "foot", "feet");
+        Add("yd", Length, "yd", "m", 0.9144, "yard", "yards");
+        Add("mi", Length, "mi", "km", 1609.344, "mile", "miles");
+        Add("mg", Mass, "mg", "oz", 0.000001, "milligram", "milligrams", "milligramme", "milligrammes");
+        Add("g", Mass, "g", "oz", 0.001, "gram", "grams", "gramme", "grammes");
+        Add("kg", Mass, "kg", "lb", 1, "kilogram", "kilograms", "kilogramme", "kilogrammes", "kilo", "kilos");
+        Add("oz", Mass, "oz", "g", 0.028349523125, "ounce", "ounces");
+        Add("lb", Mass, "lb", "kg", 0.45359237, "lbs", "pound", "pounds");
+        Add("c", Temperature, "C", "f", 0, "celsius", "centigrade");
+        Add("f", Temperature, "F", "c", 0, "fahrenheit");
+        Add("k", Temperature, "K", "c", 0, "kelvin");
+        Add("ml", Volume, "ml", "floz", 0.001, "milliliter", "milliliters", "millilitre", "millilitres");
+        Add("l", Volume, "L", "gal", 1, "liter", "liters", "litre", "litres");
+        Add("tsp", Volume, "tsp", "ml", 0.00492892159375, "teaspoon", "teaspoons");
+        Add("tbsp", Volume, "tbsp", "ml", 0.01478676478125, "tablespoon", "tablespoons");
+        Add("cup", Volume, "cup", "ml", 0.2365882365, "cups");
+        Add("floz", Volume, "fl oz", "ml", 0.0295735295625, "fluidounce", "fluidounces");
+        Add("gal", Volume, "gal", "l", 3.785411784, "gallon", "gallons");
+        Add("sec", Time, "sec", "min", 1, "secs", "second", "seconds", "s");
+        Add("min", Time, "min", "hr", 60, "mins", "minute", "minutes");
+        Add("hr", Time, "hr", "min", 3600, "hrs", "hour", "hours", "h");
+        Add("day", Time, "day", "hr", 86400, "days", "d");
+    }
+    public static bool TryHandle(string input, out string message)
+    {
+        message = null;
+        if (string.IsNullOrWhiteSpace(input))
+            return false;
+        int i = 0;
+        SkipWs(input, ref i);
+        if (!TryParseNumber(input, ref i, out double value))
+            return false;
+        SkipWs(input, ref i);
+        if (!TryParseUnitToken(input, ref i, out string fromRaw))
+            return false;
+        TryCombineFluidOunce(input, ref i, ref fromRaw);
+        SkipWs(input, ref i);
+        string toRaw = null;
+        bool explicitTo = false;
+        if (i < input.Length)
+        {
+            if (!TryMatchTo(input, ref i))
+                return false;
+            explicitTo = true;
+            SkipWs(input, ref i);
+            if (!TryParseUnitToken(input, ref i, out toRaw))
+            {
+                message = "I need a unit to convert to. Try something like \"= 5 ft to m\" or just \"= 65f\".";
+                return true;
+            }
+            TryCombineFluidOunce(input, ref i, ref toRaw);
+            SkipWs(input, ref i);
+            if (i < input.Length)
+            {
+                message = "There was some extra stuff after the conversion that I didn't know what to do with.";
+                return true;
+            }
+        }
+        if (!TryResolve(fromRaw, out UnitDef fromUnit))
+        {
+            if (!explicitTo)
+                return false;
+            message = $"I'm not sure what unit '{fromRaw}' is.";
+            return true;
+        }
+        UnitDef toUnit;
+        if (!explicitTo)
+            toUnit = Units[fromUnit.DefaultTarget];
+        else if (!TryResolve(toRaw, out toUnit))
+        {
+            message = $"I'm not sure what unit '{toRaw}' is.";
+            return true;
+        }
+        if (fromUnit.Dimension != toUnit.Dimension)
+        {
+            message = $"I don't know how to convert {fromUnit.Display} to {toUnit.Display}.";
+            return true;
+        }
+        double result = ConvertValue(fromUnit, toUnit, value);
+        if (double.IsNaN(result) || double.IsInfinity(result))
+        {
+            message = "That conversion didn't come out to a real number.";
+            return true;
+        }
+        message = $"{FormatNumber(value)} {fromUnit.Display} = {FormatNumber(result)} {toUnit.Display}";
+        return true;
+    }
+    static double ConvertValue(UnitDef from, UnitDef to, double value)
+    {
+        if (from.Dimension == Temperature)
+            return FromKelvin(to.Id, ToKelvin(from.Id, value));
+        return value * from.ToCanonical / to.ToCanonical;
+    }
+    static double ToKelvin(string id, double value)
+    {
+        switch (id)
+        {
+            case "c": return value + 273.15;
+            case "f": return (value - 32) * 5.0 / 9.0 + 273.15;
+            default: return value;
+        }
+    }
+    static double FromKelvin(string id, double kelvin)
+    {
+        switch (id)
+        {
+            case "c": return kelvin - 273.15;
+            case "f": return (kelvin - 273.15) * 9.0 / 5.0 + 32;
+            default: return kelvin;
+        }
+    }
+    static bool TryResolve(string raw, out UnitDef unit)
+    {
+        unit = null;
+        if (string.IsNullOrWhiteSpace(raw))
+            return false;
+        string key = raw.Trim().TrimStart('°');
+        if (!AliasToId.TryGetValue(key, out string id))
+            return false;
+        return Units.TryGetValue(id, out unit);
+    }
+    static void Add(string id, string dimension, string display, string defaultTarget, double toCanonical, params string[] aliases)
+    {
+        Units[id] = new UnitDef(id, dimension, display, defaultTarget, toCanonical);
+        AliasToId[id] = id;
+        foreach (string alias in aliases)
+            AliasToId[alias] = id;
+    }
+    static void SkipWs(string s, ref int i)
+    {
+        while (i < s.Length && char.IsWhiteSpace(s[i])) i++;
+    }
+    static bool TryParseNumber(string s, ref int i, out double value)
+    {
+        value = 0;
+        int start = i;
+        if (i < s.Length && (s[i] == '+' || s[i] == '-')) i++;
+        bool sawDot = false;
+        bool sawDigit = false;
+        while (i < s.Length && (char.IsDigit(s[i]) || s[i] == '.'))
+        {
+            if (s[i] == '.')
+            {
+                if (sawDot) { i = start; return false; }
+                sawDot = true;
+            }
+            else
+                sawDigit = true;
+            i++;
+        }
+        if (!sawDigit)
+        {
+            i = start;
+            return false;
+        }
+        if (i < s.Length && (s[i] == 'e' || s[i] == 'E'))
+        {
+            int ePos = i;
+            i++;
+            if (i < s.Length && (s[i] == '+' || s[i] == '-')) i++;
+            int expStart = i;
+            while (i < s.Length && char.IsDigit(s[i])) i++;
+            if (i == expStart)
+                i = ePos;
+        }
+        string num = s.Substring(start, i - start);
+        return double.TryParse(num, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+    }
+    static bool TryParseUnitToken(string s, ref int i, out string raw)
+    {
+        raw = null;
+        int start = i;
+        if (i < s.Length && s[i] == '°') i++;
+        if (i >= s.Length || !char.IsLetter(s[i]))
+        {
+            i = start;
+            return false;
+        }
+        while (i < s.Length && char.IsLetter(s[i])) i++;
+        raw = s.Substring(start, i - start);
+        return true;
+    }
+    static void TryCombineFluidOunce(string s, ref int i, ref string unitRaw)
+    {
+        if (!string.Equals(unitRaw, "fl", StringComparison.OrdinalIgnoreCase))
+            return;
+        int save = i;
+        SkipWs(s, ref i);
+        if (TryParseUnitToken(s, ref i, out string second) && string.Equals(second, "oz", StringComparison.OrdinalIgnoreCase))
+            unitRaw = "floz";
+        else
+            i = save;
+    }
+    static bool TryMatchTo(string s, ref int i)
+    {
+        if (i + 2 > s.Length)
+            return false;
+        if ((s[i] != 't' && s[i] != 'T') || (s[i + 1] != 'o' && s[i + 1] != 'O'))
+            return false;
+        if (i + 2 < s.Length && char.IsLetter(s[i + 2]))
+            return false;
+        i += 2;
+        return true;
+    }
+    static string FormatNumber(double value)
+    {
+        decimal d = Math.Round((decimal)value, 3, MidpointRounding.AwayFromZero);
+        return d.ToString("0.###", CultureInfo.InvariantCulture);
+    }
+    sealed class UnitDef
+    {
+        public readonly string Id;
+        public readonly string Dimension;
+        public readonly string Display;
+        public readonly string DefaultTarget;
+        public readonly double ToCanonical;
+        public UnitDef(string id, string dimension, string display, string defaultTarget, double toCanonical)
+        {
+            Id = id;
+            Dimension = dimension;
+            Display = display;
+            DefaultTarget = defaultTarget;
+            ToCanonical = toCanonical;
         }
     }
 }
