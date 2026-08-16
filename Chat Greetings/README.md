@@ -25,6 +25,22 @@ only needs to include the sub-Actions that you want to run and it does not need 
 
 If a user specific Action is not found, the logic will then check to see what user category Action to run.
 
-NOTE: This collection of Actions is dependent on my "Run Action by Name" Action.
-
 A tutorial video is on YouTube here: https://youtu.be/jrvEUXhLTfM
+
+## Install
+Click "Calculator.sb" in the repo then click the "Download" button to download it to your computer.
+
+![](assets/github-download.png)
+
+In Streamer.bot on your computer click the "Import" menu to open the import dialog.
+
+![](assets/streamerbot-import.png)
+
+On your computer, drag the "Calculator.sb" file and drop it into the window. Click the "Import" button.
+
+![](assets/import-dialog.png)
+
+(There is a general video tutorial on importing into Streamer.bot here: https://youtu.be/gHqw3gwpbco)
+
+## Dependencies
+This collection of Actions is packaged with my "Run Action by Name" Action.
