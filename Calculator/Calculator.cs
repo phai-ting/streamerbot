@@ -2,21 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+
 public class CPHInline
 {
     public bool Execute()
     {
+        string calculatorResponse = "";
         CPH.TryGetArg("user", out string user);
         CPH.TryGetArg("rawInput", out string rawInput);
         string expr = NormalizeInput(rawInput);
         if (string.IsNullOrWhiteSpace(expr))
         {
-            CPH.SendMessage($"{Mention(user)} try including a math expression like \"= 365 / 7\". I can also handle paranthesis, many functions, and unit conversions like \"= 65f\".");
+            CPH.SetArgument("calculatorResponse",$"Try including a math expression like \"= 365 / 7\". I can also handle paranthesis, many functions, and unit conversions like \"= 65f\".");
             return true;
         }
         if (UnitConverter.TryHandle(expr, out string conversionMessage))
         {
-            CPH.SendMessage($"{Mention(user)} {conversionMessage}");
+           CPH.SetArgument("calculatorResponse",$"{conversionMessage}");
             return true;
         }
         try
@@ -24,21 +26,23 @@ public class CPHInline
             double value = MathEvaluator.Evaluate(expr);
             if (double.IsNaN(value) || double.IsInfinity(value))
             {
-                CPH.SendMessage($"{Mention(user)} that expression didn't come out to a real number.");
+                CPH.SetArgument("calculatorResponse",$"That expression didn't come out to a real number.");
                 return true;
             }
-            CPH.SendMessage($"{Mention(user)} {expr} = {FormatNumber(value)}");
+            calculatorResponse =$"{expr} = {FormatNumber(value)}";
         }
         catch (MathEvalException ex)
         {
-            CPH.SendMessage($"{Mention(user)} {ex.Message}");
+            calculatorResponse = ex.Message;
         }
         catch (Exception)
         {
-            CPH.SendMessage($"{Mention(user)} I couldn't evaluate that expression.");
+             calculatorResponse = "I couldn't evaluate that expression.";
         }
+        CPH.SetArgument("calculatorResponse", calculatorResponse);
         return true;
     }
+
     static string NormalizeInput(string raw)
     {
         if (string.IsNullOrWhiteSpace(raw))
@@ -60,10 +64,12 @@ public class CPHInline
         return d.ToString("0.##########", CultureInfo.InvariantCulture);
     }
 }
+
 sealed class MathEvalException : Exception
 {
     public MathEvalException(string message) : base(message) { }
 }
+
 static class MathEvaluator
 {
     const int MaxTokens = 256;
@@ -359,6 +365,7 @@ static class MathEvaluator
         }
     }
 }
+
 static class UnitConverter
 {
     const string Length = "length";
