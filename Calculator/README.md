@@ -78,14 +78,14 @@ C, F, K
 Assumed targets: F to C, C to F, K to C.
 
 ### Volume
-ml, L, tsp, tbsp, cup, fl oz, gal
+ml, L, tsp, tbsp, cup, pint, quart, fl oz, gal
 
-These are US customary units. Assumed targets: ml to fl oz, L to gal, tsp, tbsp, cup, and fl oz to ml, gal to L.
+These are US customary units. Assumed targets: ml to fl oz, L to gal, tsp, tbsp, cup, pint, quart, and fl oz to ml, gal to L.
 
 ### Time
-sec, min, hr, day
+sec, min, hr, day, wk, yr
 
-Assumed targets: sec to min, min to hr, hr to min, day to hr.
+Assumed targets: sec to min, min to hr, hr to min, day to hr, wk to day, yr to day.
 
 ## Install
 Click "Calculator.sb" in the repo then click the "Download" button to download it to your computer.

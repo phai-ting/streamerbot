@@ -399,12 +399,16 @@ static class UnitConverter
         Add("tsp", Volume, "tsp", "ml", 0.00492892159375, "teaspoon", "teaspoons");
         Add("tbsp", Volume, "tbsp", "ml", 0.01478676478125, "tablespoon", "tablespoons");
         Add("cup", Volume, "cup", "ml", 0.2365882365, "cups");
+        Add("pt", Volume, "pint", "ml", 0.473176473, "pint", "pints");
+        Add("qt", Volume, "quart", "ml", 0.946352946, "quart", "quarts");
         Add("floz", Volume, "fl oz", "ml", 0.0295735295625, "fluidounce", "fluidounces");
         Add("gal", Volume, "gal", "l", 3.785411784, "gallon", "gallons");
         Add("sec", Time, "sec", "min", 1, "secs", "second", "seconds", "s");
         Add("min", Time, "min", "hr", 60, "mins", "minute", "minutes");
         Add("hr", Time, "hr", "min", 3600, "hrs", "hour", "hours", "h");
         Add("day", Time, "day", "hr", 86400, "days", "d");
+        Add("wk", Time, "wk", "day", 604800, "week", "weeks", "wks");
+        Add("yr", Time, "yr", "day", 31536000, "year", "years", "yrs", "y");
     }
     public static bool TryHandle(string input, out string message)
     {
