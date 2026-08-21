@@ -390,6 +390,7 @@ static class UnitConverter
         Add("kg", Mass, "kg", "lb", 1, "kilogram", "kilograms", "kilogramme", "kilogrammes", "kilo", "kilos");
         Add("oz", Mass, "oz", "g", 0.028349523125, "ounce", "ounces");
         Add("lb", Mass, "lb", "kg", 0.45359237, "lbs", "pound", "pounds");
+        Add("st", Mass, "st", "kg", 6.35029318, "stone", "stones");
         Add("c", Temperature, "C", "f", 0, "celsius", "centigrade");
         Add("f", Temperature, "F", "c", 0, "fahrenheit");
         Add("k", Temperature, "K", "c", 0, "kelvin");

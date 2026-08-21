@@ -68,9 +68,9 @@ mm, cm, m, km, in, ft, yd, mi
 Assumed targets: mm and cm to in, m to ft, km to mi, in to cm, ft and yd to m, mi to km.
 
 ### Mass
-mg, g, kg, oz, lb
+mg, g, kg, oz, lb, st
 
-Assumed targets: mg and g to oz, kg to lb, oz to g, lb to kg.
+Assumed targets: mg and g to oz, kg to lb, oz to g, lb to kg, st to kg.
 
 ### Temperature
 C, F, K
