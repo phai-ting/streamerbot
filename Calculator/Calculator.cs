@@ -390,6 +390,12 @@ static class UnitConverter
         Add("yd", Length, "yd", "m", 0.9144, "yard", "yards");
         Add("mi", Length, "mi", "km", 1609.344, "mile", "miles");
         Add("minion", Length, "minion", "m", 1.05, "minions");
+        Add("smoot", Length, "smoot", "m", 1.7018, "smoots");
+        Add("banana", Length, "banana", "m", 0.18, "bananas");
+        Add("baguette", Length, "baguette", "m", 0.65, "baguettes");
+        Add("furlong", Length, "furlong", "m", 201.168, "furlongs");
+        Add("fathom", Length, "fathom", "m", 1.8288, "fathoms");
+        Add("beardsecond", Length, "beardsecond", "m", 5e-9, "beardseconds");
         Add("mg", Mass, "mg", "oz", 0.000001, "milligram", "milligrams", "milligramme", "milligrammes");
         Add("g", Mass, "g", "oz", 0.001, "gram", "grams", "gramme", "grammes");
         Add("kg", Mass, "kg", "lb", 1, "kilogram", "kilograms", "kilogramme", "kilogrammes", "kilo", "kilos");
@@ -398,6 +404,7 @@ static class UnitConverter
         Add("st", Mass, "st", "kg", 6.35029318, "stone");
         Add("ton", Mass, "ton", "tonne", 907.18474, "tons", "tn");
         Add("tonne", Mass, "tonne", "ton", 1000, "tonnes", "t", "mt");
+        Add("elephant", Mass, "elephant", "kg", 5000, "elephants");
         Add("c", Temperature, "C", "f", 0, "celsius", "centigrade");
         Add("f", Temperature, "F", "c", 0, "fahrenheit");
         Add("k", Temperature, "K", "c", 0, "kelvin");
@@ -416,6 +423,8 @@ static class UnitConverter
         Add("day", Time, "day", "hr", 86400, "days", "d");
         Add("wk", Time, "wk", "day", 604800, "week", "weeks", "wks");
         Add("yr", Time, "yr", "day", 31536000, "year", "years", "yrs", "y");
+        Add("fortnight", Time, "fortnight", "wk", 1209600, "fortnights");
+        Add("dogyear", Time, "dogyear", "yr", 31536000.0 / 7.0, "dogyears");
     }
 
     public static bool TryHandle(string input, out string message, out string calcValue, out string calcUnits)
@@ -681,6 +690,8 @@ static class UnitConverter
     static string FormatNumber(double value)
     {
         decimal d = Math.Round((decimal)value, 3, MidpointRounding.AwayFromZero);
+        if (d == 0 && value != 0)
+            return value.ToString("G4", CultureInfo.InvariantCulture);
         return d.ToString("0.###", CultureInfo.InvariantCulture);
     }
 
