@@ -16,9 +16,11 @@ public class CPHInline
             CPH.SetArgument("calculatorResponse",$"Try including a math expression like \"= 365 / 7\". I can also handle paranthesis, many functions, and unit conversions like \"= 65f\".");
             return true;
         }
-        if (UnitConverter.TryHandle(expr, out string conversionMessage))
+        if (UnitConverter.TryHandle(expr, out string conversionMessage, out string calcValue, out string calcUnits))
         {
-           CPH.SetArgument("calculatorResponse",$"{conversionMessage}");
+            CPH.SetArgument("calculatorValue", calcValue);
+            CPH.SetArgument("calculatorUnit", calcUnits);
+            CPH.SetArgument("calculatorResponse",$"{conversionMessage}");
             return true;
         }
         try
@@ -29,6 +31,8 @@ public class CPHInline
                 CPH.SetArgument("calculatorResponse",$"That expression didn't come out to a real number.");
                 return true;
             }
+            CPH.SetArgument("calculatorValue", FormatNumber(value));
+            CPH.SetArgument("calculatorUnit", "");
             calculatorResponse =$"{expr} = {FormatNumber(value)}";
         }
         catch (MathEvalException ex)
@@ -412,9 +416,12 @@ static class UnitConverter
         Add("wk", Time, "wk", "day", 604800, "week", "weeks", "wks");
         Add("yr", Time, "yr", "day", 31536000, "year", "years", "yrs", "y");
     }
-    public static bool TryHandle(string input, out string message)
+
+    public static bool TryHandle(string input, out string message, out string calcValue, out string calcUnits)
     {
         message = null;
+        calcValue = null;
+        calcUnits = null;
         if (string.IsNullOrWhiteSpace(input))
             return false;
         int i = 0;
@@ -473,9 +480,12 @@ static class UnitConverter
             message = "That conversion didn't come out to a real number.";
             return true;
         }
+        calcValue = FormatNumber(result);
+        calcUnits = toUnit.Display;
         message = $"{FormatNumber(value)} {fromUnit.Display} = {FormatNumber(result)} {toUnit.Display}";
         return true;
     }
+
     static bool TryExplainUnit(string input, out string message)
     {
         message = null;
@@ -492,6 +502,7 @@ static class UnitConverter
         message = FormatAlsoKnownAs(input.Trim(), unit);
         return true;
     }
+
     static string FormatAlsoKnownAs(string typed, UnitDef unit)
     {
         var others = new List<string>();
@@ -505,6 +516,7 @@ static class UnitConverter
             return $"{typed} is a unit I know.";
         return $"{typed} is also known as {JoinEnglishList(others)}.";
     }
+
     static string JoinEnglishList(List<string> items)
     {
         if (items.Count == 1)
@@ -520,12 +532,14 @@ static class UnitConverter
         }
         return sb.ToString();
     }
+
     static double ConvertValue(UnitDef from, UnitDef to, double value)
     {
         if (from.Dimension == Temperature)
             return FromKelvin(to.Id, ToKelvin(from.Id, value));
         return value * from.ToCanonical / to.ToCanonical;
     }
+
     static double ToKelvin(string id, double value)
     {
         switch (id)
@@ -535,6 +549,7 @@ static class UnitConverter
             default: return value;
         }
     }
+
     static double FromKelvin(string id, double kelvin)
     {
         switch (id)
@@ -544,6 +559,7 @@ static class UnitConverter
             default: return kelvin;
         }
     }
+
     static bool TryResolve(string raw, out UnitDef unit)
     {
         unit = null;
@@ -554,6 +570,7 @@ static class UnitConverter
             return false;
         return Units.TryGetValue(id, out unit);
     }
+
     static void Add(string id, string dimension, string display, string defaultTarget, double toCanonical, params string[] aliases)
     {
         var names = new List<string>();
@@ -566,6 +583,7 @@ static class UnitConverter
         foreach (string alias in aliases)
             AliasToId[alias] = id;
     }
+
     static void AddUniqueName(List<string> names, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -577,10 +595,12 @@ static class UnitConverter
         }
         names.Add(name);
     }
+
     static void SkipWs(string s, ref int i)
     {
         while (i < s.Length && char.IsWhiteSpace(s[i])) i++;
     }
+
     static bool TryParseNumber(string s, ref int i, out double value)
     {
         value = 0;
@@ -617,6 +637,7 @@ static class UnitConverter
         string num = s.Substring(start, i - start);
         return double.TryParse(num, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
     }
+
     static bool TryParseUnitToken(string s, ref int i, out string raw)
     {
         raw = null;
@@ -631,6 +652,7 @@ static class UnitConverter
         raw = s.Substring(start, i - start);
         return true;
     }
+
     static void TryCombineFluidOunce(string s, ref int i, ref string unitRaw)
     {
         if (!string.Equals(unitRaw, "fl", StringComparison.OrdinalIgnoreCase))
@@ -642,6 +664,7 @@ static class UnitConverter
         else
             i = save;
     }
+
     static bool TryMatchTo(string s, ref int i)
     {
         if (i + 2 > s.Length)
@@ -653,11 +676,13 @@ static class UnitConverter
         i += 2;
         return true;
     }
+
     static string FormatNumber(double value)
     {
         decimal d = Math.Round((decimal)value, 3, MidpointRounding.AwayFromZero);
         return d.ToString("0.###", CultureInfo.InvariantCulture);
     }
+
     sealed class UnitDef
     {
         public readonly string Id;
