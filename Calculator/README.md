@@ -61,7 +61,7 @@ If you only give a number and a unit, it converts to an assumed target in the ot
 
 If you type just a unit, it tells you other names for it:
 
-- `=mm` becomes `mm is also known as millimeter, millimeters, millimetre, and millimetres.`
+- `=mm` becomes `1 mm = 0.039 in. mm is also known as millimeter, millimeters, millimetre, and millimetres.`
 
 Results show both sides and are rounded to 3 decimal places. Units in the same family can be converted to each other.
 Trying to convert across families, such as feet to celsius, gets an error.

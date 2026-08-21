@@ -437,7 +437,7 @@ static class UnitConverter
         int i = 0;
         SkipWs(input, ref i);
         if (!TryParseNumber(input, ref i, out double value))
-            return TryExplainUnit(input, out message);
+            return TryExplainUnit(input, out message, out calcValue, out calcUnits);
         SkipWs(input, ref i);
         if (!TryParseUnitToken(input, ref i, out string fromRaw))
             return false;
@@ -496,9 +496,11 @@ static class UnitConverter
         return true;
     }
 
-    static bool TryExplainUnit(string input, out string message)
+    static bool TryExplainUnit(string input, out string message, out string calcValue, out string calcUnits)
     {
         message = null;
+        calcValue = null;
+        calcUnits = null;
         int i = 0;
         SkipWs(input, ref i);
         if (!TryParseUnitToken(input, ref i, out string raw))
@@ -509,7 +511,14 @@ static class UnitConverter
             return false;
         if (!TryResolve(raw, out UnitDef unit))
             return false;
-        message = FormatAlsoKnownAs(input.Trim(), unit);
+        UnitDef toUnit = Units[unit.DefaultTarget];
+        double result = ConvertValue(unit, toUnit, 1);
+        calcValue = FormatNumber(result);
+        calcUnits = toUnit.Display;
+        message = $"{FormatNumber(1)} {unit.Display} = {FormatNumber(result)} {toUnit.Display}";
+        string alsoKnownAs = FormatAlsoKnownAs(input.Trim(), unit);
+        if (!string.IsNullOrEmpty(alsoKnownAs))
+            message += ". " + alsoKnownAs;
         return true;
     }
 
@@ -523,7 +532,7 @@ static class UnitConverter
             others.Add(name);
         }
         if (others.Count == 0)
-            return $"{typed} is a unit I know.";
+            return "";
         return $"{typed} is also known as {JoinEnglishList(others)}.";
     }
 
