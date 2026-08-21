@@ -389,6 +389,7 @@ static class UnitConverter
         Add("ft", Length, "ft", "m", 0.3048, "foot", "feet");
         Add("yd", Length, "yd", "m", 0.9144, "yard", "yards");
         Add("mi", Length, "mi", "km", 1609.344, "mile", "miles");
+        Add("minion", Length, "minion", "m", 1.05, "minions");
         Add("mg", Mass, "mg", "oz", 0.000001, "milligram", "milligrams", "milligramme", "milligrammes");
         Add("g", Mass, "g", "oz", 0.001, "gram", "grams", "gramme", "grammes");
         Add("kg", Mass, "kg", "lb", 1, "kilogram", "kilograms", "kilogramme", "kilogrammes", "kilo", "kilos");
