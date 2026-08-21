@@ -390,7 +390,9 @@ static class UnitConverter
         Add("kg", Mass, "kg", "lb", 1, "kilogram", "kilograms", "kilogramme", "kilogrammes", "kilo", "kilos");
         Add("oz", Mass, "oz", "g", 0.028349523125, "ounce", "ounces");
         Add("lb", Mass, "lb", "kg", 0.45359237, "lbs", "pound", "pounds");
-        Add("st", Mass, "st", "kg", 6.35029318, "stone", "stones");
+        Add("st", Mass, "st", "kg", 6.35029318, "stone");
+        Add("ton", Mass, "ton", "tonne", 907.18474, "tons", "tn");
+        Add("tonne", Mass, "tonne", "ton", 1000, "tonnes", "t", "mt");
         Add("c", Temperature, "C", "f", 0, "celsius", "centigrade");
         Add("f", Temperature, "F", "c", 0, "fahrenheit");
         Add("k", Temperature, "K", "c", 0, "kelvin");
@@ -418,7 +420,7 @@ static class UnitConverter
         int i = 0;
         SkipWs(input, ref i);
         if (!TryParseNumber(input, ref i, out double value))
-            return false;
+            return TryExplainUnit(input, out message);
         SkipWs(input, ref i);
         if (!TryParseUnitToken(input, ref i, out string fromRaw))
             return false;
@@ -474,6 +476,50 @@ static class UnitConverter
         message = $"{FormatNumber(value)} {fromUnit.Display} = {FormatNumber(result)} {toUnit.Display}";
         return true;
     }
+    static bool TryExplainUnit(string input, out string message)
+    {
+        message = null;
+        int i = 0;
+        SkipWs(input, ref i);
+        if (!TryParseUnitToken(input, ref i, out string raw))
+            return false;
+        TryCombineFluidOunce(input, ref i, ref raw);
+        SkipWs(input, ref i);
+        if (i < input.Length)
+            return false;
+        if (!TryResolve(raw, out UnitDef unit))
+            return false;
+        message = FormatAlsoKnownAs(input.Trim(), unit);
+        return true;
+    }
+    static string FormatAlsoKnownAs(string typed, UnitDef unit)
+    {
+        var others = new List<string>();
+        foreach (string name in unit.Names)
+        {
+            if (string.Equals(name, typed, StringComparison.OrdinalIgnoreCase))
+                continue;
+            others.Add(name);
+        }
+        if (others.Count == 0)
+            return $"{typed} is a unit I know.";
+        return $"{typed} is also known as {JoinEnglishList(others)}.";
+    }
+    static string JoinEnglishList(List<string> items)
+    {
+        if (items.Count == 1)
+            return items[0];
+        if (items.Count == 2)
+            return items[0] + " and " + items[1];
+        var sb = new StringBuilder();
+        for (int n = 0; n < items.Count; n++)
+        {
+            if (n > 0)
+                sb.Append(n == items.Count - 1 ? ", and " : ", ");
+            sb.Append(items[n]);
+        }
+        return sb.ToString();
+    }
     static double ConvertValue(UnitDef from, UnitDef to, double value)
     {
         if (from.Dimension == Temperature)
@@ -510,10 +556,26 @@ static class UnitConverter
     }
     static void Add(string id, string dimension, string display, string defaultTarget, double toCanonical, params string[] aliases)
     {
-        Units[id] = new UnitDef(id, dimension, display, defaultTarget, toCanonical);
+        var names = new List<string>();
+        AddUniqueName(names, id);
+        AddUniqueName(names, display);
+        foreach (string alias in aliases)
+            AddUniqueName(names, alias);
+        Units[id] = new UnitDef(id, dimension, display, defaultTarget, toCanonical, names.ToArray());
         AliasToId[id] = id;
         foreach (string alias in aliases)
             AliasToId[alias] = id;
+    }
+    static void AddUniqueName(List<string> names, string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return;
+        foreach (string existing in names)
+        {
+            if (string.Equals(existing, name, StringComparison.OrdinalIgnoreCase))
+                return;
+        }
+        names.Add(name);
     }
     static void SkipWs(string s, ref int i)
     {
@@ -603,13 +665,15 @@ static class UnitConverter
         public readonly string Display;
         public readonly string DefaultTarget;
         public readonly double ToCanonical;
-        public UnitDef(string id, string dimension, string display, string defaultTarget, double toCanonical)
+        public readonly string[] Names;
+        public UnitDef(string id, string dimension, string display, string defaultTarget, double toCanonical, string[] names)
         {
             Id = id;
             Dimension = dimension;
             Display = display;
             DefaultTarget = defaultTarget;
             ToCanonical = toCanonical;
+            Names = names;
         }
     }
 }

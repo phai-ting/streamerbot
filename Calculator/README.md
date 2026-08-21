@@ -59,6 +59,10 @@ If you only give a number and a unit, it converts to an assumed target in the ot
 - `= 5 ft` becomes `5 ft = 1.524 m`
 - `= 2 kg` becomes `2 kg = 4.409 lb`
 
+If you type just a unit, it tells you other names for it:
+
+- `=mm` becomes `mm is also known as millimeter, millimeters, millimetre, and millimetres.`
+
 Results show both sides and are rounded to 3 decimal places. Units in the same family can be converted to each other.
 Trying to convert across families, such as feet to celsius, gets an error.
 
@@ -68,9 +72,10 @@ mm, cm, m, km, in, ft, yd, mi
 Assumed targets: mm and cm to in, m to ft, km to mi, in to cm, ft and yd to m, mi to km.
 
 ### Mass
-mg, g, kg, oz, lb, st
+mg, g, kg, oz, lb, st, ton, tonne
 
-Assumed targets: mg and g to oz, kg to lb, oz to g, lb to kg, st to kg.
+Assumed targets: mg and g to oz, kg to lb, oz to g, lb to kg, st to kg, ton to tonne, tonne to ton.
+`ton` is the US short ton (2000 lb). `tonne` is the metric tonne (1000 kg). `st` is stone.
 
 ### Temperature
 C, F, K
