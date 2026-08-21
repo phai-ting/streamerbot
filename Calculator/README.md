@@ -92,6 +92,12 @@ sec, min, hr, day, wk, yr
 
 Assumed targets: sec to min, min to hr, hr to min, day to hr, wk to day, yr to day.
 
+### Return Values
+After a calculation or conversion, the following variables will be made available to other actions:
+- calculatorValue
+- calculatorUnit
+- calculatorResponse
+
 ## Install
 Click "Calculator.sb" in the repo then click the "Download" button to download it to your computer.
 
