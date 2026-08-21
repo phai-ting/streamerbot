@@ -396,6 +396,7 @@ static class UnitConverter
         Add("furlong", Length, "furlong", "m", 201.168, "furlongs");
         Add("fathom", Length, "fathom", "m", 1.8288, "fathoms");
         Add("beardsecond", Length, "beardsecond", "m", 5e-9, "beardseconds");
+        Add("stud", Length, "stud", "cm", 0.008, "studs");
         Add("mg", Mass, "mg", "oz", 0.000001, "milligram", "milligrams", "milligramme", "milligrammes");
         Add("g", Mass, "g", "oz", 0.001, "gram", "grams", "gramme", "grammes");
         Add("kg", Mass, "kg", "lb", 1, "kilogram", "kilograms", "kilogramme", "kilogrammes", "kilo", "kilos");
