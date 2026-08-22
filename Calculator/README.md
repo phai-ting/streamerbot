@@ -28,13 +28,16 @@ If someone uses `=` with nothing after it, the bot replies with a short usage me
 - `tau` (2 * pi)
 
 ## Functions
-- General: `abs`, `sqrt`, `floor`, `ceil` (or `ceiling`), `round`, `sign`, `min`, `max`, `pow`
+- General: `abs`, `sqrt`, `floor`, `ceil` (or `ceiling`), `round`, `sign`, `min`, `max`, `pow`, `rand`
 - Exponential and log: `exp`, `ln`, `log`, `log10`
 - Trigonometry: `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`, `sinh`, `cosh`, `tanh`
 - Conversion: `deg` (radians to degrees), `rad` (degrees to radians)
 
 `log(x)` is the natural log. `log(x, b)` is log base `b`. Trigonometric functions use radians, so convert degrees with
 `rad()` first if that is what you have.
+
+`rand()` follows C# `Random`: `rand()` is a float from 0 up to but not including 1, `rand(n)` is an integer from 0 up to
+but not including `n`, and `rand(a, b)` is an integer from `a` up to but not including `b`.
 
 If the expression cannot be evaluated, the bot replies with a short error instead of a result. That includes things like
 division by zero, an unknown name, or a missing parenthesis.

@@ -163,6 +163,7 @@ static class MathEvaluator
     }
     sealed class Parser
     {
+        static readonly Random Rng = new Random();
         readonly List<Token> _tokens;
         int _pos;
         int _depth;
@@ -353,6 +354,7 @@ static class MathEvaluator
                 case "min": Require(n, 2, name); return Math.Min(a[0], a[1]);
                 case "max": Require(n, 2, name); return Math.Max(a[0], a[1]);
                 case "pow": Require(n, 2, name); return Math.Pow(a[0], a[1]);
+                case "rand": return Rand(a);
                 case "deg": Require(n, 1, name); return a[0] * (180.0 / Math.PI);
                 case "rad": Require(n, 1, name); return a[0] * (Math.PI / 180.0);
                 default:
@@ -366,6 +368,36 @@ static class MathEvaluator
                 string needed = need == 1 ? "1 value" : $"{need} values";
                 throw new MathEvalException($"Unfortunately, {name}() needs {needed}.");
             }
+        }
+        static double Rand(List<double> a)
+        {
+            int n = a.Count;
+            if (n == 0)
+                return Rng.NextDouble();
+            if (n == 1)
+            {
+                int max = ToIntArg(a[0]);
+                if (max < 0)
+                    throw new MathEvalException("The max for rand() can't be negative.");
+                return Rng.Next(max);
+            }
+            if (n == 2)
+            {
+                int min = ToIntArg(a[0]);
+                int max = ToIntArg(a[1]);
+                if (min > max)
+                    throw new MathEvalException("The first number for rand() has to be less than or equal to the second.");
+                return Rng.Next(min, max);
+            }
+            throw new MathEvalException("rand() can take 0, 1, or 2 values.");
+        }
+        static int ToIntArg(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value) || value != Math.Truncate(value))
+                throw new MathEvalException("rand() needs whole numbers when you give it a range.");
+            if (value < int.MinValue || value > int.MaxValue)
+                throw new MathEvalException("That number is too big for rand().");
+            return (int)value;
         }
     }
 }
